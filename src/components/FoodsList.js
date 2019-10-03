@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import FoodItem from './FoodItem'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Link } from 'react-router-dom'
 
 export const ALL_FOOD_QUERY = gql`
     query AllFoodQuery {
@@ -14,6 +15,7 @@ export const ALL_FOOD_QUERY = gql`
                 name
             }
             calories
+            protein
             cost
             vegan
         }
@@ -31,6 +33,7 @@ const NEW_FOODS_SUBSCRIPTION = gql`
                 name
             }
             calories
+            protein
             cost
             vegan
         }
@@ -78,6 +81,14 @@ class FoodsList extends Component {
 
           return (
             <Fragment>
+              <h2>Food Items</h2>
+              <div className="right-align">
+                <Link to="/create">
+                  <a
+                    className="btn-floating btn-large waves-effect waves-light red"><i
+                    className="material-icons">add</i></a>
+                </Link>
+              </div>
               {linksToRender.map((food, index) => (
                 <FoodItem
                   key={food.id}

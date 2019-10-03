@@ -41,3 +41,12 @@ input {
   cursor: pointer;
   max-width: 250px;
 }
+
+.submit-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.left-align {
+  text-align: left;
+}
