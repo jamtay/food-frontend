@@ -8,6 +8,15 @@ class FoodItem extends Component {
     }
     return undefined
   }
+
+  getVeganValue = isVegan => {
+    if (isVegan === undefined || isVegan === null) {
+      return 'Unknown'
+    } else {
+      return isVegan ? 'Yes' : 'No'
+    }
+  }
+
   render() {
     return (
       <div className="section background-gray">
@@ -36,13 +45,13 @@ class FoodItem extends Component {
               paraEnd: ' grams'
             })}
             {this.getPara({
-              item: 'No',
+              item: this.getVeganValue(this.props.food.vegan),
               paraStart: 'Vegan?: ',
               paraEnd: ''
             })}
             {this.getPara({
-              item: 'London',
-              paraStart: 'Location: ',
+              item: this.props.food.createdBy.name,
+              paraStart: 'Created By: ',
               paraEnd: ''
             })}
           </div>

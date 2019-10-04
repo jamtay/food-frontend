@@ -7,11 +7,11 @@ import { messageMap } from '../errors/messages'
 const CREATE_FOOD_ITEM = gql`
     mutation CreateFoodItem(
         $description: String!, $name: String!,
-        $cost: Float, $calories: Int, $protein: Int
+        $cost: Float, $calories: Int, $protein: Int, $vegan: Boolean
     ) {
         createFoodItem(
             description: $description, name: $name,
-            cost: $cost, calories: $calories, protein: $protein
+            cost: $cost, calories: $calories, protein: $protein, vegan: $vegan
         ) {
             id
             name
@@ -19,6 +19,7 @@ const CREATE_FOOD_ITEM = gql`
             cost
             calories
             protein
+            vegan
         }
     }
 `
@@ -33,8 +34,15 @@ class CreateFood extends Component {
     }).length > 0 ? 'mb2 invalid' : 'mb2'
   }
 
+
+  _mapVeganOption = value => {
+    if (value) {
+      return value === 'Yes'
+    }
+  }
+
   render() {
-    const { description, name, cost, calories, protein, errors } = this.state
+    const { description, name, cost, calories, protein, errors, vegan } = this.state
     return (
       <div>
         <h2>Create Food Item</h2>
@@ -80,6 +88,36 @@ class CreateFood extends Component {
             type="number"
             placeholder="Food's protein"
           />
+          <div className="left-align">
+            <label>Vegan?</label>
+            <label className="green-text padded-radio">
+              <input
+                name="vegan"
+                type="radio"
+                value="Yes"
+                onChange={e =>
+                  this.setState({
+                    vegan:
+                      this._mapVeganOption(e.target.value)
+                  })
+                }
+              />
+              <span>Yes</span>
+            </label>
+            <label className="red-text padded-radio">
+              <input
+                name="vegan"
+                type="radio"
+                value="No"
+                onChange={e =>
+                  this.setState({vegan:
+                      this._mapVeganOption(e.target.value)
+                  })
+                }
+              />
+              <span>No</span>
+            </label>
+          </div>
         </div>
         <pre>{errors.map((message, i) => (
            <p className="red-text left-align" key={i}><i className="tiny material-icons">error</i>{message}</p>
@@ -88,7 +126,7 @@ class CreateFood extends Component {
         <pre className="left-align red-text">{errors.message}</pre>
         <Mutation
           mutation={CREATE_FOOD_ITEM}
-          variables={{ name, description, cost, calories, protein }}
+          variables={{ name, description, cost, calories, protein, vegan }}
           onCompleted={() => this.props.history.push('/foods')}
           onError={error => {
             if (error.networkError) {

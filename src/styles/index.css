@@ -50,3 +50,7 @@ input {
 .left-align {
   text-align: left;
 }
+
+.padded-radio {
+  margin-left: 1em;
+}
