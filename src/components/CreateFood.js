@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { Mutation } from 'react-apollo'
 import { ALL_FOOD_QUERY } from './FoodsList'
 import gql from 'graphql-tag'
+import { messageMap } from '../errors/messages'
 
 const CREATE_FOOD_ITEM = gql`
     mutation CreateFoodItem(
         $description: String!, $name: String!,
-        $cost: Float!, $calories: Int!, $protein: Int!
+        $cost: Float, $calories: Int, $protein: Int
     ) {
         createFoodItem(
             description: $description, name: $name,
@@ -23,35 +24,37 @@ const CREATE_FOOD_ITEM = gql`
 `
 class CreateFood extends Component {
   state = {
-    description: '',
-    name: '',
-    cost: '',
-    calories: '',
-    protein: ''
+    errors: []
+  }
+
+  _isInvalid = (errors, field) => {
+    return errors.filter(error => {
+      return error.includes(field)
+    }).length > 0 ? 'mb2 invalid' : 'mb2'
   }
 
   render() {
-    const { description, name, cost, calories, protein } = this.state
+    const { description, name, cost, calories, protein, errors } = this.state
     return (
       <div>
         <h2>Create Food Item</h2>
         <div className="flex flex-column mt3">
           <input
-            className="mb2"
+            className={this._isInvalid(errors, 'name')}
             value={name}
             onChange={e => this.setState({name: e.target.value })}
             type="text"
             placeholder="The name of the food"
           />
           <input
-            className="mb2"
+            className={this._isInvalid(errors, 'description')}
             value={description}
             onChange={e => this.setState({description: e.target.value })}
             type="text"
             placeholder="A description of the food"
           />
           <input
-            className="cost"
+            className={this._isInvalid(errors, 'cost')}
             value={cost}
             onChange={e => this.setState({cost:
               parseFloat(e.target.value)
@@ -60,28 +63,42 @@ class CreateFood extends Component {
             placeholder="The cost of the food"
           />
           <input
-            className="calories"
+            className={this._isInvalid(errors, 'calories')}
             value={calories}
             onChange={e => this.setState({calories:
               parseInt(e.target.value)
             })}
             type="number"
-            placeholder="The calories of the food"
+            placeholder="Food's calories"
           />
           <input
-            className="protein"
+            className={this._isInvalid(errors, 'protein')}
             value={protein}
             onChange={e => this.setState({protein:
               parseInt(e.target.value)
             })}
             type="number"
-            placeholder="The protein of the food"
+            placeholder="Food's protein"
           />
         </div>
+        <pre>{errors.map((message, i) => (
+           <p className="red-text left-align" key={i}><i className="tiny material-icons">error</i>{message}</p>
+        ))}
+      </pre>
+        <pre className="left-align red-text">{errors.message}</pre>
         <Mutation
           mutation={CREATE_FOOD_ITEM}
-          variables={{ name, description, cost, calories, protein}}
+          variables={{ name, description, cost, calories, protein }}
           onCompleted={() => this.props.history.push('/foods')}
+          onError={error => {
+            if (error.networkError) {
+              let friendlyErrors = []
+              error.networkError.result.errors.map(({ message }, i) => {
+                friendlyErrors.push(messageMap[message])
+              })
+              this.setState({errors: friendlyErrors})
+            }
+          }}
           update={(store, { data: { createFoodItem } }) => {
             const data = store.readQuery({
               query: ALL_FOOD_QUERY
