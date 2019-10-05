@@ -11,8 +11,16 @@ class Header extends Component {
         <div className="flex flex-fixed">
           <div className="fw7 mr1">James - Food App</div>
           <Link to="/" className="ml1 underline white-text">
-            View
+            All food
           </Link>
+          {authToken && (
+            <div className="flex">
+              <div className="ml1">|</div>
+              <Link to="/my-foods" className="ml1 underline white-text">
+                My food
+              </Link>
+            </div>
+          )}
           {authToken && (
             <div className="flex">
               <div className="ml1">|</div>

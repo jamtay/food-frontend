@@ -17,11 +17,7 @@ class FoodItem extends Component {
         currency: 'GDP',
         minimumFractionDigits: 2
       })
-
-      console.log(`BEFORE: ${props.item}`)
       props.item = formatter.format(props.item).replace('GDP', '').replace(/\s/g, '')
-      console.log(`AFTER: ${props.item}`)
-
       return this.getPara(props)
     }
     return undefined

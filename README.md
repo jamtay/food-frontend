@@ -70,3 +70,5 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 
 http://react-materialize.github.io/react-materialize/?path=/story/react-materialize--welcome
+
+Initial - Check out commit 0f63d5a1e4162fc7c0062594396ac1c4ccc825b3

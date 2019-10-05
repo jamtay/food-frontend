@@ -51,9 +51,9 @@ class CreateFood extends Component {
             <h4 className="white-text left-align">Create Food Item</h4>
           </div>
           <div className="table-top-margin col s6 right-align">
-            <Link to="/foods">
+            <Link to="/all-foods">
               <a
-                className="btn-floating btn-large waves-effect waves-light red"><i
+                className="btn-floating btn-large waves-effect waves-light green"><i
                 className="material-icons">search</i></a>
             </Link>
           </div>
@@ -139,7 +139,7 @@ class CreateFood extends Component {
         <Mutation
           mutation={CREATE_FOOD_ITEM}
           variables={{ name, description, cost, calories, protein, vegan }}
-          onCompleted={() => this.props.history.push('/foods')}
+          onCompleted={() => this.props.history.push('/all-foods')}
           onError={error => {
             if (error.networkError) {
               let friendlyErrors = []

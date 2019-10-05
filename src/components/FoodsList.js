@@ -24,6 +24,24 @@ export const ALL_FOOD_QUERY = gql`
     }
 `
 
+export const MY_FOOD_QUERY = gql`
+    query MyFoodQuery {
+        myFoods {
+            id
+            name
+            description
+            createdBy {
+                id
+                name
+            }
+            calories
+            protein
+            cost
+            vegan
+        }
+    }
+`
+
 const NEW_FOODS_SUBSCRIPTION = gql`
     subscription {
         foodSubscription {
@@ -62,21 +80,47 @@ class FoodsList extends Component {
   }
 
   _getFoodsToRender = data => {
-    return data.allFoods
+    const isAllFoods = this.props.location.pathname.includes('all')
+    if (isAllFoods) {
+      return data.allFoods
+    }
+    return data.myFoods
   }
+
+  _getQuery = () => {
+    return this.props.location.pathname.includes('all') ? ALL_FOOD_QUERY : MY_FOOD_QUERY
+  }
+
+  _getTitle = () => {
+    return this.props.location.pathname.includes('all') ? 'All food items' : 'My food items'
+  }
+
+  _getFoodLink = () => {
+
+    return this.props.location.pathname.includes('all') ?
+      (<Link to="/my-foods">
+        <a className="btn-floating btn-large waves-effect waves-light blue">
+          <i className="material-icons">mood</i>
+        </a>
+      </Link>) :
+      (<Link to="/all-foods">
+        <a className="btn-floating btn-large waves-effect waves-light green">
+          <i className="material-icons">search</i>
+        </a>
+      </Link>)
+  }
+
 
   render() {
     return (
-      <Query query={ALL_FOOD_QUERY}>
+      <Query query={this._getQuery()}>
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) return <div>Fetching</div>
           if (error) {
-            {error.graphQLErrors.map(({ message }, i) => (
-              console.log(message)
-            ))}
             return <div>${error.message}</div>
           }
 
+          //TODO: Fix me so gets correct subscription to the page
           this._subscribeToFoodSubscriptions(subscribeToMore)
 
           const linksToRender = this._getFoodsToRender(data)
@@ -85,13 +129,14 @@ class FoodsList extends Component {
             <Fragment>
               <div className="row">
                 <div className="text-header-top-margin col s6">
-                  <h4 className="white-text left-align">Food Items</h4>
+                  <h4 className="white-text left-align">{this._getTitle()}</h4>
                 </div>
                 <div className="table-top-margin col s6 right-align">
+                  {this._getFoodLink()}
                   <Link to="/create">
-                    <a
-                      className="btn-floating btn-large waves-effect waves-light red"><i
-                      className="material-icons">add</i></a>
+                    <a className="btn-floating btn-large waves-effect waves-light red">
+                      <i className="material-icons">add</i>
+                    </a>
                   </Link>
                 </div>
               </div>
