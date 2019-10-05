@@ -31,10 +31,11 @@ class Login extends Component {
     const { login, email, password, name } = this.state
     return (
       <div>
-        <h4 className="mv3">{login ? 'Login' : 'Sign up'}</h4>
-        <div className="flex flex-column">
+        <h4 className="mv3 left-align white-text">{login ? 'Login' : 'Sign up'}</h4>
+        <div className="flex flex-column white-text">
           {!login && (
             <input
+              className="white-text"
               value={name}
               onChange={e => this.setState({ name: e.target.value })}
               type="text"
@@ -42,12 +43,14 @@ class Login extends Component {
             />
           )}
           <input
+            className="white-text"
             value={email}
             onChange={e => this.setState({ email: e.target.value })}
             type="text"
             placeholder="Your email address"
           />
           <input
+            className="white-text"
             value={password}
             onChange={e => this.setState({ password: e.target.value })}
             type="password"

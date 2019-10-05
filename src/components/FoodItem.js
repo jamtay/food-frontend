@@ -10,6 +10,24 @@ class FoodItem extends Component {
     return undefined
   }
 
+  getFoodCostPara = props => {
+    if (props.item !== undefined && props.item !== null) {
+      const formatter = new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: 'GDP',
+        minimumFractionDigits: 2
+      })
+
+      console.log(`BEFORE: ${props.item}`)
+      props.item = formatter.format(props.item).replace('GDP', '').replace(/\s/g, '')
+      console.log(`AFTER: ${props.item}`)
+
+      return this.getPara(props)
+    }
+    return undefined
+  }
+
+
   getVeganValue = isVegan => {
     if (isVegan === undefined || isVegan === null) {
       return 'Unknown'
@@ -26,7 +44,7 @@ class FoodItem extends Component {
               <p className="left-align"><b>{this.props.food.description}</b></p>
             </div>
             <div className="col m9">
-              {this.getPara({
+              {this.getFoodCostPara({
                 item: this.props.food.cost,
                 paraStart: 'Cost: £',
                 paraEnd: ''
