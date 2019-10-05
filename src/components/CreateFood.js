@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo'
 import { ALL_FOOD_QUERY } from './FoodsList'
 import gql from 'graphql-tag'
 import { messageMap } from '../errors/messages'
+import { Link } from 'react-router-dom'
 
 const CREATE_FOOD_ITEM = gql`
     mutation CreateFoodItem(
@@ -31,7 +32,7 @@ class CreateFood extends Component {
   _isInvalid = (errors, field) => {
     return errors.filter(error => {
       return error.includes(field)
-    }).length > 0 ? 'mb2 invalid' : 'mb2'
+    }).length > 0 ? 'mb2 white-text invalid' : 'mb2 white-text'
   }
 
 
@@ -45,8 +46,19 @@ class CreateFood extends Component {
     const { description, name, cost, calories, protein, errors, vegan } = this.state
     return (
       <div>
-        <h2>Create Food Item</h2>
-        <div className="flex flex-column mt3">
+        <div className="row">
+          <div className="text-header-top-margin col s6">
+            <h4 className="white-text left-align">Create Food Item</h4>
+          </div>
+          <div className="table-top-margin col s6 right-align">
+            <Link to="/foods">
+              <a
+                className="btn-floating btn-large waves-effect waves-light red"><i
+                className="material-icons">search</i></a>
+            </Link>
+          </div>
+        </div>
+        <div className="flex flex-column mt3 white-text">
           <input
             className={this._isInvalid(errors, 'name')}
             value={name}
@@ -89,7 +101,7 @@ class CreateFood extends Component {
             placeholder="Food's protein"
           />
           <div className="left-align">
-            <label>Vegan?</label>
+            <label><b>Vegan?</b></label>
             <label className="green-text padded-radio">
               <input
                 name="vegan"

@@ -4,6 +4,8 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Link } from 'react-router-dom'
 
+import { Collapsible } from 'react-materialize';
+
 export const ALL_FOOD_QUERY = gql`
     query AllFoodQuery {
         allFoods {
@@ -81,21 +83,29 @@ class FoodsList extends Component {
 
           return (
             <Fragment>
-              <h2>Food Items</h2>
-              <div className="right-align">
-                <Link to="/create">
-                  <a
-                    className="btn-floating btn-large waves-effect waves-light red"><i
-                    className="material-icons">add</i></a>
-                </Link>
+              <div className="row">
+                <div className="text-header-top-margin col s6">
+                  <h4 className="white-text left-align">Food Items</h4>
+                </div>
+                <div className="table-top-margin col s6 right-align">
+                  <Link to="/create">
+                    <a
+                      className="btn-floating btn-large waves-effect waves-light red"><i
+                      className="material-icons">add</i></a>
+                  </Link>
+                </div>
               </div>
-              {linksToRender.map((food, index) => (
-                <FoodItem
-                  key={food.id}
-                  food={food}
-                  index={index}
-                />
-              ))}
+              <div className="table-top-margin">
+              <Collapsible popout>
+                {linksToRender.map((food, index) => (
+                  <FoodItem
+                    key={food.id}
+                    food={food}
+                    index={index}
+                  />
+                ))}
+              </Collapsible>
+              </div>
             </Fragment>
           )
         }}

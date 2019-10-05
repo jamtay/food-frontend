@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CollapsibleItem } from 'react-materialize'
 
 class FoodItem extends Component {
 
@@ -19,44 +20,40 @@ class FoodItem extends Component {
 
   render() {
     return (
-      <div className="section background-gray">
-        <div className="divider"></div>
-        <div className="left-align">
-          <h5>{this.props.food.name}</h5>
-        </div>
-        <div>
-          <div className="col m3">
-            <p className="left-align">{this.props.food.description}</p>
+      <CollapsibleItem header={this.props.food.name}>
+        <div className="white-text">
+            <div className="col m3">
+              <p className="left-align"><b>{this.props.food.description}</b></p>
+            </div>
+            <div className="col m9">
+              {this.getPara({
+                item: this.props.food.cost,
+                paraStart: 'Cost: £',
+                paraEnd: ''
+              })}
+              {this.getPara({
+                item: this.props.food.calories,
+                paraStart: 'Calories: ',
+                paraEnd: ' KCal'
+              })}
+              {this.getPara({
+                item: this.props.food.protein,
+                paraStart: 'Protein: ',
+                paraEnd: ' grams'
+              })}
+              {this.getPara({
+                item: this.getVeganValue(this.props.food.vegan),
+                paraStart: 'Vegan?: ',
+                paraEnd: ''
+              })}
+              {this.getPara({
+                item: this.props.food.createdBy.name,
+                paraStart: 'Created By: ',
+                paraEnd: ''
+              })}
+            </div>
           </div>
-          <div className="col m9">
-            {this.getPara({
-              item: this.props.food.cost,
-              paraStart: 'Cost: £',
-              paraEnd: ''
-            })}
-            {this.getPara({
-              item: this.props.food.calories,
-              paraStart: 'Calories: ',
-              paraEnd: ' KCal'
-            })}
-            {this.getPara({
-              item: this.props.food.protein,
-              paraStart: 'Protein: ',
-              paraEnd: ' grams'
-            })}
-            {this.getPara({
-              item: this.getVeganValue(this.props.food.vegan),
-              paraStart: 'Vegan?: ',
-              paraEnd: ''
-            })}
-            {this.getPara({
-              item: this.props.food.createdBy.name,
-              paraStart: 'Created By: ',
-              paraEnd: ''
-            })}
-          </div>
-        </div>
-      </div>
+      </CollapsibleItem>
     )
   }
 }

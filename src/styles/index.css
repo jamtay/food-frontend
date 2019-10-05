@@ -20,6 +20,23 @@ input {
   background-color: rgb(246,246,239);
 }
 
+.background-black {
+  background-color: #282c34;
+}
+
+.padded-red-header {
+  background-color: #fc0345;
+  padding: 1.5rem;
+}
+
+.table-top-margin {
+  margin-top: 3rem;
+}
+
+.text-header-top-margin {
+  margin-top: 2rem;
+}
+
 .f11 {
   font-size: 11px;
 }

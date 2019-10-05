@@ -7,16 +7,16 @@ class Header extends Component {
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN)
     return (
-      <div className="flex pa1 justify-between nowrap black white-text">
+      <div className="flex padded-red-header justify-between nowrap white-text">
         <div className="flex flex-fixed">
           <div className="fw7 mr1">James - Food App</div>
-          <Link to="/" className="ml1 no-underline">
+          <Link to="/" className="ml1 underline white-text">
             View
           </Link>
           {authToken && (
             <div className="flex">
               <div className="ml1">|</div>
-              <Link to="/create" className="ml1 no-underline">
+              <Link to="/create" className="ml1 underline white-text">
                 Create
               </Link>
             </div>
@@ -25,7 +25,7 @@ class Header extends Component {
         <div className="flex flex-fixed">
           {authToken ? (
             <div
-              className="ml1 pointer"
+              className="underline white-text ml1 pointer"
               onClick={() => {
                 localStorage.removeItem(AUTH_TOKEN)
                 this.props.history.push(`/`)
@@ -34,7 +34,7 @@ class Header extends Component {
               logout
             </div>
           ) : (
-            <Link to="/login" className="ml1 no-underline">
+            <Link to="/login" className="ml1 underline white-text">
               login
             </Link>
           )}
