@@ -1,4 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](https://imgur.com/ousyQaC.png)
+
+# Food and Meals Frontend
+
+![](https://i.imgur.com/xX97Ohf.jpg)
+
+## How to Start
+
+Run: 
+1. `yarn install`
+2. `yarn start`
+3. Navigate to [http://localhost:3000](http://localhost:3000)
+
+## Current Implemented Features
+- Login page
+- Signup page
+- See all food items
+- Create new food item
+- See food items associated with me
+
+## Future Work
+See trello board
+
+## GraphQL Backend
+- Can be found [here](https://github.com/jtaylor1995/food-graph-api) 
+- Currently has meals and food items implemented (without searching, paging and ordering)
+
+## Useful Links
+- Materialize [docs](https://materializecss.com/)
+- [react-materialize docs](http://react-materialize.github.io/react-materialize/?path=/story/react-materialize--welcome
+)
+- GraphQL backend schema.  See [project](https://github.com/jtaylor1995/food-graph-api) or [file](https://github.com/jtaylor1995/food-graph-api/blob/master/src/schema.graphql)
+- [React docs](https://reactjs.org/docs/getting-started.html)
+- Apollo client [docs](https://www.apollographql.com/docs/react/)
+- Initial commit of this project to see features of old hackernews app.  run `git checkout 0f63d5a1e4162fc7c0062594396ac1c4ccc825b3`
 
 ## Available Scripts
 
@@ -66,9 +100,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-
-
-http://react-materialize.github.io/react-materialize/?path=/story/react-materialize--welcome
-
-Initial - Check out commit 0f63d5a1e4162fc7c0062594396ac1c4ccc825b3
