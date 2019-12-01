@@ -95,6 +95,10 @@ class FoodsList extends Component {
     return this.props.location.pathname.includes('all') ? 'All food items' : 'My food items'
   }
 
+  _getListType = () => {
+    return this.props.location.pathname.includes('all') ? 'ALL' : 'MY'
+  }
+
   _getFoodLink = () => {
 
     return this.props.location.pathname.includes('all') ?
@@ -147,6 +151,7 @@ class FoodsList extends Component {
                     key={food.id}
                     food={food}
                     index={index}
+                    listType={this._getListType()}
                   />
                 ))}
               </Collapsible>

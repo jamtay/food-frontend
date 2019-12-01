@@ -71,3 +71,8 @@ input {
 .padded-radio {
   margin-left: 1em;
 }
+
+.collapsible-header
+  i {
+    margin-right: 0;
+  }

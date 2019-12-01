@@ -1,7 +1,34 @@
 import React, { Component } from 'react'
 import { CollapsibleItem } from 'react-materialize'
+import { Mutation } from 'react-apollo'
+import { Link } from 'react-router-dom'
+import { ALL_FOOD_QUERY } from './FoodsList'
+import gql from 'graphql-tag'
+
+const DELETE_MUTATION = gql`
+    mutation DeleteFoodItem(
+        $id: ID!
+    ) {
+        deleteFoodItem(
+            id: $id
+        ) {
+            id
+            name
+            description
+            cost
+            calories
+            protein
+            vegan
+        }
+    }
+`
+
 
 class FoodItem extends Component {
+
+  state = {
+    id: this.props.food.id
+  }
 
   getPara = props => {
     if (props.item !== undefined && props.item !== null) {
@@ -32,7 +59,12 @@ class FoodItem extends Component {
     }
   }
 
+  getRedirectLink = () => {
+    return this.props.listType === 'ALL' ? '/all-foods' : '/my-foods'
+  }
+
   render() {
+    const { id } = this.state
     return (
       <CollapsibleItem header={this.props.food.name}>
         <div className="white-text">
@@ -65,6 +97,40 @@ class FoodItem extends Component {
                 paraStart: 'Created By: ',
                 paraEnd: ''
               })}
+
+              {/*TODO: Only display delete button if belongs to user*/}
+              <Mutation
+                mutation={DELETE_MUTATION}
+                variables={{id}}
+                onCompleted={() => this.props.history.push(this.getRedirectLink())}
+                onError={error => {
+                  if (error.graphQLErrors) {
+                    // TODO: Check it is not possible to delete and then show error
+                  }
+                  console.log(error)
+                }}
+                update={(store, { data: { deleteFoodItem } }) => {
+                  // TODO find out what to do here to make it delete
+                  // const data = store.readQuery({
+                  //   query: ALL_FOOD_QUERY
+                  // })
+                  // data.allFoods.unshift(createFoodItem)
+                  // store.writeQuery({
+                  //   query: ALL_FOOD_QUERY,
+                  //   data
+                  // })
+                }}
+              >
+                {postMutation =>
+                  <div>
+                    <Link to={this.getRedirectLink()} onClick={postMutation}>
+                      <a className="btn-floating btn-small waves-effect waves-light red">
+                        <i className="material-icons">delete_outline</i>
+                      </a>
+                    </Link>
+                  </div>
+                }
+              </Mutation>
             </div>
           </div>
       </CollapsibleItem>
