@@ -19,6 +19,7 @@ const DELETE_MUTATION = gql`
             calories
             protein
             vegan
+            createdByLoggedInUser
         }
     }
 `
@@ -63,6 +64,45 @@ class FoodItem extends Component {
     return this.props.listType === 'ALL' ? '/all-foods' : '/my-foods'
   }
 
+  getDeleteItem = (props, id)  => {
+    if (props.food.createdByLoggedInUser) {
+      return <Mutation
+        mutation={DELETE_MUTATION}
+        variables={{id}}
+        onCompleted={() => this.props.history.push(this.getRedirectLink())}
+        onError={error => {
+          if (error.graphQLErrors) {
+            // TODO: Check it is not possible to delete and then show error
+          }
+          console.log(error)
+        }}
+        update={(store, { data: { deleteFoodItem } }) => {
+          // TODO find out what to do here to make it delete
+          // const data = store.readQuery({
+          //   query: ALL_FOOD_QUERY
+          // })
+          // data.allFoods.unshift(createFoodItem)
+          // store.writeQuery({
+          //   query: ALL_FOOD_QUERY,
+          //   data
+          // })
+        }}
+      >
+        {postMutation =>
+          <div>
+            <Link to={this.getRedirectLink()} onClick={postMutation}>
+              <a className="btn-floating btn-small waves-effect waves-light red">
+                <i className="material-icons">delete_outline</i>
+              </a>
+            </Link>
+          </div>
+        }
+      </Mutation>
+    } else {
+      return ''
+    }
+  }
+
   render() {
     const { id } = this.state
     return (
@@ -97,40 +137,7 @@ class FoodItem extends Component {
                 paraStart: 'Created By: ',
                 paraEnd: ''
               })}
-
-              {/*TODO: Only display delete button if belongs to user*/}
-              <Mutation
-                mutation={DELETE_MUTATION}
-                variables={{id}}
-                onCompleted={() => this.props.history.push(this.getRedirectLink())}
-                onError={error => {
-                  if (error.graphQLErrors) {
-                    // TODO: Check it is not possible to delete and then show error
-                  }
-                  console.log(error)
-                }}
-                update={(store, { data: { deleteFoodItem } }) => {
-                  // TODO find out what to do here to make it delete
-                  // const data = store.readQuery({
-                  //   query: ALL_FOOD_QUERY
-                  // })
-                  // data.allFoods.unshift(createFoodItem)
-                  // store.writeQuery({
-                  //   query: ALL_FOOD_QUERY,
-                  //   data
-                  // })
-                }}
-              >
-                {postMutation =>
-                  <div>
-                    <Link to={this.getRedirectLink()} onClick={postMutation}>
-                      <a className="btn-floating btn-small waves-effect waves-light red">
-                        <i className="material-icons">delete_outline</i>
-                      </a>
-                    </Link>
-                  </div>
-                }
-              </Mutation>
+              {this.getDeleteItem(this.props, id)}
             </div>
           </div>
       </CollapsibleItem>

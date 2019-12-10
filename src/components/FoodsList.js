@@ -20,6 +20,7 @@ export const ALL_FOOD_QUERY = gql`
             protein
             cost
             vegan
+            createdByLoggedInUser
         }
     }
 `
@@ -38,6 +39,7 @@ export const MY_FOOD_QUERY = gql`
             protein
             cost
             vegan
+            createdByLoggedInUser
         }
     }
 `
@@ -56,6 +58,7 @@ const NEW_FOODS_SUBSCRIPTION = gql`
             protein
             cost
             vegan
+            createdByLoggedInUser
         }
     }
 `
